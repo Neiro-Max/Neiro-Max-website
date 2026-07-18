@@ -42,7 +42,29 @@
     min-height:100vh;
   }
   a{color:inherit;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* outer cockpit frame — same treatment as the app's own .wrap */
+  .site-frame{
+    max-width:1300px;margin:20px auto;
+    border:1px solid var(--border);border-radius:0;
+    clip-path:polygon(28px 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 28px), calc(100% - 28px) 100%, 28px 100%, 0 calc(100% - 28px), 0 28px);
+    padding:6px 0 10px;
+    background:rgba(255,255,255,.025);
+    box-shadow:
+      0 0 0 1px rgba(34,211,238,.10),
+      0 20px 60px rgba(0,0,0,.35),
+      inset 0 1px 0 rgba(255,255,255,.05);
+    position:relative;
+  }
+  .site-frame::before, .site-frame::after{
+    content:'';position:absolute;width:22px;height:22px;pointer-events:none;opacity:.8;
+  }
+  .site-frame::before{top:10px;left:10px;border-top:2px solid var(--accent);border-left:2px solid var(--accent);}
+  .site-frame::after{bottom:10px;right:10px;border-bottom:2px solid var(--accent);border-right:2px solid var(--accent);}
+  @media (max-width:680px){
+    .site-frame{margin:10px;padding:2px 0 6px;clip-path:polygon(16px 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 16px), calc(100% - 16px) 100%, 16px 100%, 0 calc(100% - 16px), 0 16px);}
+  }
 
   /* ---------- shared HUD primitives ---------- */
   .hud-panel{
@@ -251,7 +273,7 @@
   }
 
   @media (max-width:480px){
-    .wrap{padding:0 16px;}
+    .container{padding:0 16px;}
     .ring-panel{padding:26px 16px;}
     .ring{width:84px;height:84px;}
     .ring-icon{font-size:18px;}
@@ -263,8 +285,9 @@
 </style>
 </head>
 <body>
+<div class="site-frame">
 
-<div class="wrap">
+<div class="container">
   <header>
     <div class="header-row">
       <div class="brand">
@@ -284,7 +307,7 @@
   </header>
 </div>
 
-<div class="wrap">
+<div class="container">
   <div class="hud-panel status-bar">
     <div class="status-items">
       <div class="status-item"><span class="status-dot"></span>Система: онлайн</div>
@@ -298,7 +321,7 @@
   </div>
 </div>
 
-<div class="wrap">
+<div class="container">
   <section class="hero">
     <div class="hero-inner">
       <div class="hud-panel hero-text-panel">
@@ -346,7 +369,7 @@
   </section>
 </div>
 
-<div class="wrap">
+<div class="container">
   <section id="services">
     <div class="section-head">
       <span class="section-tag">Модуль 01 · Услуги</span>
@@ -383,7 +406,7 @@
   </section>
 </div>
 
-<div class="wrap">
+<div class="container">
   <section id="portfolio">
     <div class="section-head">
       <span class="section-tag">Модуль 02 · Портфолио</span>
@@ -423,7 +446,7 @@
   </section>
 </div>
 
-<div class="wrap">
+<div class="container">
   <section id="contact">
     <div class="hud-panel contact-panel">
       <div>
@@ -457,13 +480,15 @@
   </section>
 </div>
 
-<div class="wrap">
+<div class="container">
   <footer>
     <div class="hud-panel footer-bar">
       <div class="foot-brand">NEIRO-MAX STUDIO · Полный цикл работы с ИИ</div>
       <div class="foot-status"><span class="status-dot" style="animation:none;"></span>Готовы к новым проектам</div>
     </div>
   </footer>
+</div>
+
 </div>
 
 <script>
