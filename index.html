@@ -75,10 +75,10 @@
     font-family:'Inter',sans-serif;text-decoration:none;box-shadow:var(--shadow-card);
     transition:transform .15s ease, box-shadow .15s ease;
   }
-  .btn:hover{transform:translateY(-2px);}
-  .btn-primary{background:#26A5E4;color:#fff;}
-  .btn-max{background:#FF5B24;color:#fff;}
-  .btn-ghost{background:var(--panel-2);color:var(--text);}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.12);}
+  .btn-primary{background:#26A5E4;color:#fff;box-shadow:0 0 1px rgba(38,165,228,.6), 0 0 18px rgba(38,165,228,.45), 0 8px 24px rgba(0,0,0,.4);}
+  .btn-max{background:#FF5B24;color:#fff;box-shadow:0 0 1px rgba(255,91,36,.6), 0 0 18px rgba(255,91,36,.45), 0 8px 24px rgba(0,0,0,.4);}
+  .btn-ghost{background:var(--panel-2);color:var(--text);border-color:var(--accent);}
 
   /* ---------- header ---------- */
   header{padding:22px 0;}
@@ -100,9 +100,32 @@
     text-shadow:0 1px 0 rgba(255,255,255,.15);
     filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));
   }
-  nav{display:flex;gap:26px;font-size:13.5px;font-weight:600;}
-  nav a{text-decoration:none;color:var(--text-dim);transition:color .15s ease, transform .15s ease;display:inline-block;}
-  nav a:hover{color:var(--accent);transform:translateY(-2px);}
+  @keyframes hud-pulse{
+    0%,100%{box-shadow:var(--shadow-card);}
+    50%{box-shadow:0 0 1px rgba(34,211,238,.7), 0 0 26px rgba(34,211,238,.28), 0 8px 30px rgba(0,0,0,.5);}
+  }
+  .hud-panel{animation:hud-pulse 4.5s ease-in-out infinite;}
+
+  .status-bar{
+    display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 20px;
+    padding:10px 18px;margin:0 0 30px;
+  }
+  .status-items{display:flex;gap:22px;flex-wrap:wrap;}
+  .status-item{display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;}
+  .status-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal);flex-shrink:0;animation:dot-blink 2s ease-in-out infinite;}
+  @keyframes dot-blink{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .status-clock{display:flex;align-items:baseline;gap:8px;}
+  .status-clock-time{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:var(--accent);letter-spacing:.02em;}
+  .status-clock-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;}
+
+  /* nav as HUD bracket tags */
+  nav{display:flex;gap:10px;font-size:12px;font-weight:600;}
+  nav a{
+    text-decoration:none;color:var(--text-dim);font-family:'JetBrains Mono',monospace;
+    border:1px solid rgba(34,211,238,.35);padding:7px 13px;text-transform:uppercase;letter-spacing:.04em;
+    transition:color .15s ease, border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+  }
+  nav a:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-2px);box-shadow:0 0 14px rgba(34,211,238,.35);}
 
   /* ---------- hero ---------- */
   .hero{padding:64px 0 76px;}
@@ -112,8 +135,9 @@
     font-family:'Montserrat',sans-serif;font-weight:800;font-size:clamp(28px,5.2vw,44px);line-height:1.15;margin:0 0 20px;color:var(--text);
   }
   .hero h1 em{font-style:normal;color:var(--gold-2);}
-  .hero p{font-size:16px;line-height:1.6;color:var(--text-dim);max-width:520px;margin:0 0 30px;}
+  .hero p{font-size:16px;line-height:1.6;color:var(--text-dim);margin:0 0 30px;}
   .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .hero-text-panel{padding:36px 34px;}
 
   /* signature visual: three status rings, same language as the app's mic/gauge/chatgpt row */
   .ring-panel{padding:34px 28px;}
@@ -138,7 +162,13 @@
 
   /* ---------- section shells ---------- */
   section{padding:64px 0;}
-  .section-head{max-width:640px;margin:0 0 40px;}
+  .section-head{max-width:640px;margin:0 0 32px;}
+  .section-tag{
+    display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent);text-transform:uppercase;letter-spacing:.12em;border:1px solid rgba(34,211,238,.4);
+    padding:5px 12px;margin:0 0 14px;
+  }
+  .section-tag::before{content:'◆';font-size:8px;}
   .section-head h2{font-family:'Montserrat',sans-serif;font-weight:800;font-size:28px;margin:0 0 10px;color:var(--gold-2);}
   .section-head p{font-size:14.5px;color:var(--text-dim);line-height:1.6;margin:0;}
 
@@ -150,7 +180,7 @@
   .service-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.4), var(--shadow-card);}
   .service-icon{
     width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;
-    font-size:20px;margin-bottom:18px;transition:transform .18s ease;
+    font-size:20px;margin-bottom:18px;transition:transform .18s ease;border:1px solid rgba(34,211,238,.25);
   }
   .service-card:hover .service-icon{transform:scale(1.1) rotate(-4deg);}
   .service-card h3{font-family:'Montserrat',sans-serif;font-size:16px;margin:0 0 10px;color:var(--text);}
@@ -194,8 +224,31 @@
   .contact-row a:hover{color:var(--accent);}
   .contact-row .sub{display:block;font-size:11px;color:var(--text-faint);font-weight:400;}
 
-  footer{padding:30px 0 46px;text-align:center;}
-  footer .foot-brand{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--text-faint);text-transform:uppercase;}
+  footer{padding:30px 0 46px;}
+  .footer-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:14px 20px;}
+  .foot-brand{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.15em;color:var(--text-faint);text-transform:uppercase;}
+  .foot-status{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;color:var(--teal);text-transform:uppercase;display:flex;align-items:center;gap:7px;}
+
+  @media (max-width:680px){
+    header{padding:16px 0;}
+    .header-row{gap:10px;}
+    nav{display:none;}
+    .btn{padding:10px 16px;font-size:13px;}
+    .brand-name{font-size:16px;}
+    .logo-mark{width:36px;height:36px;}
+
+    .hero{padding:36px 0 48px;}
+    .hero-inner{gap:32px;}
+    .hero p{font-size:14.5px;}
+    .hero-actions{gap:10px;}
+
+    section{padding:44px 0;}
+    .section-head h2{font-size:23px;}
+    .section-head p{font-size:13.5px;}
+
+    .service-card{padding:20px 18px;}
+    .contact-panel{grid-template-columns:1fr;gap:28px;}
+  }
 
   @media (max-width:480px){
     .wrap{padding:0 16px;}
@@ -203,7 +256,9 @@
     .ring{width:84px;height:84px;}
     .ring-icon{font-size:18px;}
     .ring-label{font-size:8.5px;}
-    .contact-panel{padding:30px 22px;}
+    .ring-row{gap:8px;}
+    .contact-panel{padding:26px 18px;}
+    .hero-actions .btn, .contact-panel .hero-actions .btn{width:100%;justify-content:center;}
   }
 </style>
 </head>
@@ -230,9 +285,23 @@
 </div>
 
 <div class="wrap">
+  <div class="hud-panel status-bar">
+    <div class="status-items">
+      <div class="status-item"><span class="status-dot"></span>Система: онлайн</div>
+      <div class="status-item">Режим: генерация контента</div>
+      <div class="status-item">г. Вологда</div>
+    </div>
+    <div class="status-clock">
+      <span class="status-clock-time" id="hudClock">00:00:00</span>
+      <span class="status-clock-label">местное время</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
   <section class="hero">
     <div class="hero-inner">
-      <div>
+      <div class="hud-panel hero-text-panel">
         <p class="eyebrow">AI-студия генеративного контента</p>
         <h1>От идеи и разработки сценария<br>до <em>готового рекламного ролика</em></h1>
         <p>Генеративный контент, рекламные ролики на нейросетях, разработка сайтов и умные ИИ-агенты для VK и Telegram — под ключ, от идеи до запуска.</p>
@@ -280,6 +349,7 @@
 <div class="wrap">
   <section id="services">
     <div class="section-head">
+      <span class="section-tag">Модуль 01 · Услуги</span>
       <h2>Услуги</h2>
       <p>Каждое направление можно заказать отдельно или собрать полный цикл — от генерации идеи до готового продукта.</p>
     </div>
@@ -316,6 +386,7 @@
 <div class="wrap">
   <section id="portfolio">
     <div class="section-head">
+      <span class="section-tag">Модуль 02 · Портфолио</span>
       <h2>Портфолио</h2>
       <p>Раздел наполняется — здесь появятся реальные кейсы и примеры работ.</p>
     </div>
@@ -356,6 +427,7 @@
   <section id="contact">
     <div class="hud-panel contact-panel">
       <div>
+        <span class="section-tag">Модуль 03 · Контакты</span>
         <h2>Обсудим проект?</h2>
         <p>Расскажите, что нужно — подберём формат и посчитаем сроки. Быстрее всего ответим в Telegram.</p>
         <div class="hero-actions">
@@ -385,9 +457,25 @@
   </section>
 </div>
 
-<footer>
-  <div class="foot-brand">NEIRO-MAX STUDIO · Полный цикл работы с ИИ</div>
-</footer>
+<div class="wrap">
+  <footer>
+    <div class="hud-panel footer-bar">
+      <div class="foot-brand">NEIRO-MAX STUDIO · Полный цикл работы с ИИ</div>
+      <div class="foot-status"><span class="status-dot" style="animation:none;"></span>Готовы к новым проектам</div>
+    </div>
+  </footer>
+</div>
 
+<script>
+  function tickHudClock(){
+    const el = document.getElementById('hudClock');
+    if(!el) return;
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    el.textContent = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  }
+  tickHudClock();
+  setInterval(tickHudClock, 1000);
+</script>
 </body>
 </html>
