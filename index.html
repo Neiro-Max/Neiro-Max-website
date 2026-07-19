@@ -36,12 +36,20 @@
       radial-gradient(circle at 12% 8%, rgba(34,211,238,.16), transparent 42%),
       radial-gradient(circle at 88% 15%, rgba(8,145,178,.12), transparent 38%),
       radial-gradient(circle at 50% 95%, rgba(34,211,238,.08), transparent 45%),
+      linear-gradient(rgba(34,211,238,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,.035) 1px, transparent 1px),
       var(--bg);
+    background-size:auto, auto, auto, 34px 34px, 34px 34px, auto;
     color:var(--text);
     font-family:'Inter',sans-serif;
     min-height:100vh;
+    position:relative;
   }
   a{color:inherit;}
+
+  #starfield{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+  #starfield .star{position:absolute;border-radius:50%;background:#fff;}
+  .site-frame, header, .container{position:relative;z-index:1;}
   .container{max-width:1180px;margin:0 auto;padding:0 24px;}
 
   /* outer cockpit frame — same treatment as the app's own .wrap */
@@ -68,7 +76,11 @@
 
   /* ---------- shared HUD primitives ---------- */
   .hud-panel{
-    background:var(--panel);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    background:
+      radial-gradient(circle 2.5px at 12px calc(100% - 12px), rgba(125,211,224,.9), rgba(125,211,224,0) 100%),
+      radial-gradient(circle 2.5px at calc(100% - 12px) calc(100% - 12px), rgba(125,211,224,.9), rgba(125,211,224,0) 100%),
+      var(--panel);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
     border:1px solid var(--accent);border-radius:0;
     clip-path:polygon(var(--hud-cut) 0, calc(100% - var(--hud-cut)) 0, 100% var(--hud-cut), 100% calc(100% - var(--hud-cut)), calc(100% - var(--hud-cut)) 100%, var(--hud-cut) 100%, 0 calc(100% - var(--hud-cut)), 0 var(--hud-cut));
     box-shadow:var(--shadow-card);
@@ -179,7 +191,7 @@
 
   /* ---------- blinking LED indicator for select panels ---------- */
   .led-dot{
-    position:absolute;bottom:11px;right:11px;width:6px;height:6px;border-radius:50%;
+    position:absolute;bottom:16px;left:16px;width:6px;height:6px;border-radius:50%;
     background:var(--teal);box-shadow:0 0 6px var(--teal);animation:dot-blink 1.8s ease-in-out infinite;z-index:3;
   }
 
@@ -206,12 +218,25 @@
   .hero-text-panel:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.4), var(--shadow-card);}
 
   /* signature visual: three status rings, same language as the app's mic/gauge/chatgpt row */
-  .ring-panel{padding:34px 28px;transition:transform .18s ease, box-shadow .18s ease;}
+  .ring-panel{padding:34px 28px;transition:transform .18s ease, box-shadow .18s ease;overflow:hidden;}
+  .radar-decor{
+    position:absolute;top:50%;left:50%;width:340px;height:340px;
+    transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;z-index:0;
+    background:conic-gradient(from 0deg, rgba(34,211,238,.10), transparent 25%);
+    animation:radar-spin 8s linear infinite;
+  }
+  @keyframes radar-spin{ to{ transform:translate(-50%,-50%) rotate(360deg); } }
+  .ring-panel > *:not(.radar-decor){position:relative;z-index:1;}
   .ring-panel:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.4), var(--shadow-card);}
   .ring-panel .eyebrow{margin-bottom:22px;}
-  .ring-row{display:flex;align-items:center;justify-content:space-between;gap:14px;}
+  .ring-row{display:flex;align-items:center;justify-content:space-between;gap:14px;position:relative;}
+  .ring-row::before{
+    content:'';position:absolute;top:50%;left:8%;right:8%;height:1px;z-index:0;
+    background:linear-gradient(90deg, transparent, rgba(34,211,238,.55) 12%, rgba(34,211,238,.55) 88%, transparent);
+    box-shadow:0 0 6px rgba(34,211,238,.4);
+  }
   .ring{
-    width:104px;height:104px;border-radius:50%;flex-shrink:0;
+    width:104px;height:104px;border-radius:50%;flex-shrink:0;position:relative;z-index:1;
     background:radial-gradient(circle at 35% 30%, var(--panel-2), var(--panel));
     border:2px solid var(--accent);
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
@@ -400,6 +425,7 @@
 </style>
 </head>
 <body>
+<div id="starfield"></div>
 <div class="site-frame">
 
 <div class="container">
@@ -473,6 +499,7 @@
       </div>
 
       <div class="hud-panel ring-panel">
+        <div class="radar-decor"></div>
         <span class="led-dot"></span>
         <p class="eyebrow">Направления студии</p>
         <div class="ring-row">
@@ -780,6 +807,23 @@
   }
   tickHudClock();
   setInterval(tickHudClock, 1000);
+
+  (function generateStarfield(){
+    const field = document.getElementById('starfield');
+    if(!field) return;
+    const count = 90;
+    for(let i=0;i<count;i++){
+      const s = document.createElement('span');
+      s.className = 'star';
+      const size = Math.random()*1.6 + 0.4;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = Math.random()*100 + '%';
+      s.style.top = Math.random()*100 + '%';
+      s.style.opacity = (Math.random()*0.5 + 0.15).toFixed(2);
+      field.appendChild(s);
+    }
+  })();
 
   function openBrief(){
     document.getElementById('briefOverlay').classList.add('open');
