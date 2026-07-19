@@ -354,6 +354,88 @@
   a.contact-line-item:hover{color:var(--accent);}
   .ico-sm{font-size:15px;}
 
+  /* ---------- CSS-only rotating globe (geolocation effect) ---------- */
+
+  /* large globe variant, sized/framed like the hero rings */
+  .globe-feature{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  .globe-space{
+    position:relative;width:160px;height:160px;border-radius:50%;
+    background:radial-gradient(circle, #050b12 0%, #050b12 55%, transparent 78%);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .globe-space .mini-star{position:absolute;border-radius:50%;background:#fff;}
+  .globe-large{
+    width:104px;height:104px;border-radius:50%;flex-shrink:0;position:relative;overflow:hidden;
+    background:#08324f;
+    box-shadow:
+      0 0 0 1px rgba(120,200,255,.25),
+      0 0 18px rgba(90,180,255,.55),
+      0 0 40px rgba(90,180,255,.3),
+      0 0 70px rgba(34,211,238,.15);
+  }
+  .globe-surface{
+    position:absolute;top:0;left:0;width:208px;height:104px;
+    background:
+      /* --- first half (0-50%) --- */
+      radial-gradient(ellipse 15px 11px at 8% 26%,  #4CAF6D 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 9px 7px  at 13% 34%,  #57bd76 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 10px 18px at 24% 66%, #4CAF6D 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 8px 10px  at 29% 78%, #57bd76 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 18px 12px at 41% 20%, #57bd76 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 10px 8px  at 47% 15%, #8a9a4a 0%, #6f7d3a 50%, transparent 68%),
+      /* --- second half = first half + 50% (exact mirror for seamless loop) --- */
+      radial-gradient(ellipse 15px 11px at 58% 26%, #4CAF6D 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 9px 7px  at 63% 34%,  #57bd76 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 10px 18px at 74% 66%, #4CAF6D 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 8px 10px  at 79% 78%, #57bd76 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 18px 12px at 91% 20%, #57bd76 0%, #3d8f58 50%, transparent 68%),
+      radial-gradient(ellipse 10px 8px  at 97% 15%, #8a9a4a 0%, #6f7d3a 50%, transparent 68%),
+      /* ocean depth variation, also mirrored */
+      radial-gradient(ellipse 40px 30px at 28% 50%, rgba(255,255,255,.05), transparent 70%),
+      radial-gradient(ellipse 40px 30px at 78% 50%, rgba(255,255,255,.05), transparent 70%),
+      linear-gradient(#2a9fdb, #08324f 85%);
+    animation:globe-rotate 11s linear infinite;
+  }
+  .globe-clouds{
+    position:absolute;top:0;left:0;width:208px;height:104px;
+    background:
+      radial-gradient(ellipse 13px 4px at 16% 18%, rgba(255,255,255,.75), transparent 75%),
+      radial-gradient(ellipse 10px 4px at 34% 58%, rgba(255,255,255,.6), transparent 75%),
+      radial-gradient(ellipse 12px 4px at 44% 82%, rgba(255,255,255,.65), transparent 75%),
+      radial-gradient(ellipse 13px 4px at 66% 18%, rgba(255,255,255,.75), transparent 75%),
+      radial-gradient(ellipse 10px 4px at 84% 58%, rgba(255,255,255,.6), transparent 75%),
+      radial-gradient(ellipse 12px 4px at 94% 82%, rgba(255,255,255,.65), transparent 75%);
+    animation:globe-rotate-clouds 16s linear infinite;
+    opacity:.85;
+  }
+  @keyframes globe-rotate{ from{transform:translateX(0);} to{transform:translateX(-104px);} }
+  @keyframes globe-rotate-clouds{ from{transform:translateX(0);} to{transform:translateX(-104px);} }
+  .globe-shading{
+    position:absolute;inset:0;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle at 32% 28%, rgba(255,255,255,.5), rgba(255,255,255,0) 40%);
+    box-shadow:
+      inset -16px -16px 24px rgba(0,0,0,.6),
+      inset 6px 6px 12px rgba(255,255,255,.18),
+      inset 0 0 12px rgba(120,200,255,.35),
+      inset 0 0 0 1px rgba(255,255,255,.12);
+  }
+  .globe-feature-label{
+    font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.05em;
+    display:flex;align-items:center;gap:8px;
+  }
+
+  .locate-pulse{
+    position:relative;width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;
+  }
+  .locate-pulse::before{
+    content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--teal);
+    animation:locate-ping 2s ease-out infinite;
+  }
+  @keyframes locate-ping{
+    0%{transform:scale(.4);opacity:.9;}
+    100%{transform:scale(1.8);opacity:0;}
+  }
+
   /* ---------- brief modal ---------- */
   .brief-overlay{
     position:fixed;inset:0;background:rgba(2,5,8,.78);backdrop-filter:blur(4px);
@@ -449,7 +531,7 @@
         <a href="https://web.max.ru/" target="_blank" rel="noopener" class="social-btn btn-max" aria-label="MAX" title="MAX">
           <svg viewBox="0 0 24 24"><path d="M4 5.5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H9l-4 3.5v-3.5H6c-1.1 0-2-.9-2-2v-9Z"/></svg>
         </a>
-        <a href="https://www.youtube.com/@NeiroMaxs" target="_blank" rel="noopener" class="social-btn btn-youtube" aria-label="YouTube" title="YouTube">
+        <a href="https://www.youtube.com/@NeiroMaxstudio" target="_blank" rel="noopener" class="social-btn btn-youtube" aria-label="YouTube" title="YouTube">
           <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M9.8 8.6v6.8l6-3.4Z"/></svg>
         </a>
         <a href="https://rutube.ru/channel/26" target="_blank" rel="noopener" class="social-btn btn-rutube" aria-label="RuTube" title="RuTube">
@@ -727,7 +809,7 @@
           <a href="https://web.max.ru/" target="_blank" rel="noopener" class="social-btn btn-max" aria-label="MAX" title="MAX">
             <svg viewBox="0 0 24 24"><path d="M4 5.5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H9l-4 3.5v-3.5H6c-1.1 0-2-.9-2-2v-9Z"/></svg>
           </a>
-          <a href="https://www.youtube.com/@NeiroMaxs" target="_blank" rel="noopener" class="social-btn btn-youtube" aria-label="YouTube" title="YouTube">
+          <a href="https://www.youtube.com/@NeiroMaxstudio" target="_blank" rel="noopener" class="social-btn btn-youtube" aria-label="YouTube" title="YouTube">
             <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M9.8 8.6v6.8l6-3.4Z"/></svg>
           </a>
           <a href="https://rutube.ru/channel/26" target="_blank" rel="noopener" class="social-btn btn-rutube" aria-label="RuTube" title="RuTube">
@@ -737,6 +819,16 @@
         <div class="contact-line">
           <a href="tel:+79005011942" class="contact-line-item"><span class="ico-sm">📞</span>+7 900 501-19-42</a>
           <span class="contact-line-item"><span class="ico-sm">📍</span>г. Вологда</span>
+        </div>
+        <div class="globe-feature">
+          <div class="globe-space" id="globeSpace">
+            <div class="globe-large">
+              <div class="globe-surface"></div>
+              <div class="globe-clouds"></div>
+              <div class="globe-shading"></div>
+            </div>
+          </div>
+          <div class="globe-feature-label"><span class="locate-pulse"></span>Работаем по всему миру</div>
         </div>
       </div>
     </div>
@@ -821,6 +913,22 @@
       s.style.left = Math.random()*100 + '%';
       s.style.top = Math.random()*100 + '%';
       s.style.opacity = (Math.random()*0.5 + 0.15).toFixed(2);
+      field.appendChild(s);
+    }
+  })();
+
+  (function generateGlobeStars(){
+    const field = document.getElementById('globeSpace');
+    if(!field) return;
+    for(let i=0;i<24;i++){
+      const s = document.createElement('span');
+      s.className = 'mini-star';
+      const size = Math.random()*1.4 + 0.5;
+      s.style.width = size + 'px';
+      s.style.height = size + 'px';
+      s.style.left = Math.random()*100 + '%';
+      s.style.top = Math.random()*100 + '%';
+      s.style.opacity = (Math.random()*0.6 + 0.25).toFixed(2);
       field.appendChild(s);
     }
   })();
