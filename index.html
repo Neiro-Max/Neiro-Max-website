@@ -99,7 +99,25 @@
   }
   .btn:hover{transform:translateY(-2px);filter:brightness(1.12);}
   .btn-primary{background:#26A5E4;color:#fff;box-shadow:0 0 1px rgba(38,165,228,.6), 0 0 18px rgba(38,165,228,.45), 0 8px 24px rgba(0,0,0,.4);}
-  .btn-max{background:#FF5B24;color:#fff;box-shadow:0 0 1px rgba(255,91,36,.6), 0 0 18px rgba(255,91,36,.45), 0 8px 24px rgba(0,0,0,.4);}
+  .btn-max{background:linear-gradient(135deg,#8B5CF6 0%,#3E8EF7 55%,#22C1F0 100%);color:#fff;box-shadow:0 0 1px rgba(90,140,255,.6), 0 0 18px rgba(90,140,255,.45), 0 8px 24px rgba(0,0,0,.4);}
+  .btn-vk{background:#0077FF;color:#fff;box-shadow:0 0 1px rgba(0,119,255,.6), 0 0 18px rgba(0,119,255,.45), 0 8px 24px rgba(0,0,0,.4);}
+  .btn-youtube{background:#FF0000;color:#fff;box-shadow:0 0 1px rgba(255,0,0,.6), 0 0 18px rgba(255,0,0,.45), 0 8px 24px rgba(0,0,0,.4);}
+  .btn-rutube{background:#140E38;color:#fff;position:relative;overflow:hidden;box-shadow:0 0 1px rgba(20,14,56,.8), 0 0 18px rgba(239,30,60,.35), 0 8px 24px rgba(0,0,0,.4);}
+  .btn-rutube::after{
+    content:'';position:absolute;top:-8px;right:-8px;width:26px;height:26px;border-radius:50%;
+    background:#E8143C;
+  }
+
+  /* ---------- uniform social icon buttons ---------- */
+  .social-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .social-btn{
+    width:44px;height:44px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Inter',sans-serif;font-weight:800;font-size:13px;color:#fff;
+    text-decoration:none;transition:transform .15s ease, box-shadow .15s ease, filter .15s ease;
+  }
+  .social-btn:hover{transform:translateY(-2px) scale(1.06);filter:brightness(1.12);}
+  .social-btn svg{width:19px;height:19px;fill:#fff;}
   .btn-ghost{background:var(--panel-2);color:var(--text);border-color:var(--accent);}
 
   /* ---------- header ---------- */
@@ -130,7 +148,7 @@
 
   .status-bar{
     display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 20px;
-    padding:10px 18px;margin:0 0 30px;
+    padding:10px 18px;margin:0 0 18px;
   }
   .status-items{display:flex;gap:22px;flex-wrap:wrap;}
   .status-item{display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;}
@@ -139,6 +157,31 @@
   .status-clock{display:flex;align-items:baseline;gap:8px;}
   .status-clock-time{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:16px;color:var(--accent);letter-spacing:.02em;}
   .status-clock-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.08em;}
+
+  /* ---------- HUD ticker ---------- */
+  .ticker{
+    overflow:hidden;white-space:nowrap;padding:11px 0;margin:0 0 18px;
+    background:rgba(34,211,238,.05);border-top:1px solid rgba(34,211,238,.3);border-bottom:1px solid rgba(34,211,238,.3);
+    box-shadow:0 0 16px rgba(34,211,238,.12) inset;
+  }
+  .ticker-track{display:inline-block;padding-left:100%;animation:ticker-scroll 32s linear infinite;}
+  .ticker:hover .ticker-track{animation-play-state:paused;}
+  .ticker-track span{
+    font-family:'JetBrains Mono',monospace;font-size:13.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-dim);margin-right:48px;
+    text-shadow:0 0 10px rgba(34,211,238,.35);
+  }
+  .ticker-track span em{font-style:normal;color:var(--accent);text-shadow:0 0 12px rgba(34,211,238,.85), 0 0 22px rgba(34,211,238,.4);}
+  @keyframes ticker-scroll{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-100%);}
+  }
+
+  /* ---------- blinking LED indicator for select panels ---------- */
+  .led-dot{
+    position:absolute;bottom:11px;right:11px;width:6px;height:6px;border-radius:50%;
+    background:var(--teal);box-shadow:0 0 6px var(--teal);animation:dot-blink 1.8s ease-in-out infinite;z-index:3;
+  }
 
   /* nav as HUD bracket tags */
   nav{display:flex;gap:10px;font-size:12px;font-weight:600;}
@@ -150,7 +193,7 @@
   nav a:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-2px);box-shadow:0 0 14px rgba(34,211,238,.35);}
 
   /* ---------- hero ---------- */
-  .hero{padding:64px 0 76px;}
+  .hero{padding:44px 0 52px;}
   .hero-inner{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;}
   @media (max-width:860px){.hero-inner{grid-template-columns:1fr;}}
   .hero h1{
@@ -159,10 +202,12 @@
   .hero h1 em{font-style:normal;color:var(--gold-2);}
   .hero p{font-size:16px;line-height:1.6;color:var(--text-dim);margin:0 0 30px;}
   .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
-  .hero-text-panel{padding:36px 34px;}
+  .hero-text-panel{padding:36px 34px;transition:transform .18s ease, box-shadow .18s ease;}
+  .hero-text-panel:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.4), var(--shadow-card);}
 
   /* signature visual: three status rings, same language as the app's mic/gauge/chatgpt row */
-  .ring-panel{padding:34px 28px;}
+  .ring-panel{padding:34px 28px;transition:transform .18s ease, box-shadow .18s ease;}
+  .ring-panel:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.4), var(--shadow-card);}
   .ring-panel .eyebrow{margin-bottom:22px;}
   .ring-row{display:flex;align-items:center;justify-content:space-between;gap:14px;}
   .ring{
@@ -183,8 +228,8 @@
   .ring-readout-label{font-size:9.5px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
 
   /* ---------- section shells ---------- */
-  section{padding:64px 0;}
-  .section-head{max-width:640px;margin:0 0 32px;}
+  section{padding:48px 0;}
+  .section-head{max-width:640px;margin:0 0 26px;}
   .section-tag{
     display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:11px;
     color:var(--accent);text-transform:uppercase;letter-spacing:.12em;border:1px solid rgba(34,211,238,.4);
@@ -208,7 +253,47 @@
   .service-card h3{font-family:'Montserrat',sans-serif;font-size:16px;margin:0 0 10px;color:var(--text);}
   .service-card p{font-size:13px;line-height:1.55;color:var(--text-dim);margin:0;}
 
-  /* ---------- portfolio ---------- */
+  /* ---------- process ---------- */
+  .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;}
+  @media (max-width:900px){.process-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:560px){.process-grid{grid-template-columns:1fr;}}
+  .process-card{padding:22px 20px;transition:transform .18s ease, box-shadow .18s ease;}
+  .process-card:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.4), var(--shadow-card);}
+  .process-num{
+    font-family:'JetBrains Mono',monospace;font-weight:700;font-size:12px;color:var(--accent);
+    border:1px solid rgba(34,211,238,.4);width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+  }
+  .process-card h3{font-family:'Montserrat',sans-serif;font-size:15px;margin:0 0 8px;color:var(--text);}
+  .process-card p{font-size:12.5px;line-height:1.5;color:var(--text-dim);margin:0;}
+
+  /* ---------- trust strip ---------- */
+  .trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  @media (max-width:900px){.trust-strip{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:480px){.trust-strip{grid-template-columns:1fr;}}
+  .trust-item{
+    padding:22px 20px;display:flex;align-items:center;gap:14px;
+    transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .trust-item:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.4), var(--shadow-card);}
+  .trust-icon{font-size:22px;filter:drop-shadow(0 0 4px var(--accent));flex-shrink:0;}
+  .trust-num{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:18px;color:var(--accent);line-height:1.2;}
+  .trust-label{font-size:11px;color:var(--text-faint);text-transform:uppercase;letter-spacing:.04em;}
+
+  /* ---------- FAQ ---------- */
+  .faq-list{display:flex;flex-direction:column;gap:12px;}
+  .faq-item{padding:0;overflow:hidden;}
+  .faq-item summary{
+    padding:18px 22px;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:700;font-size:14.5px;
+    color:var(--text);list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:'+';font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--accent);flex-shrink:0;
+    transition:transform .2s ease;
+  }
+  .faq-item[open] summary::after{transform:rotate(45deg);}
+  .faq-item p{margin:0;padding:0 22px 20px;font-size:13px;line-height:1.6;color:var(--text-dim);}
   .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
   @media (max-width:860px){.portfolio-grid{grid-template-columns:1fr;}}
   .portfolio-card{overflow:hidden;transition:transform .18s ease, box-shadow .18s ease;}
@@ -235,16 +320,46 @@
   @media (max-width:780px){.contact-panel{grid-template-columns:1fr;}}
   .contact-panel h2{font-family:'Montserrat',sans-serif;font-weight:800;font-size:26px;margin:0 0 14px;color:var(--text);}
   .contact-panel p{font-size:14px;color:var(--text-dim);line-height:1.6;margin:0 0 26px;max-width:440px;}
-  .contact-list{display:flex;flex-direction:column;gap:14px;}
-  .contact-row{display:flex;align-items:center;gap:12px;font-size:14px;transition:transform .15s ease;}
-  .contact-row:hover{transform:translateX(4px);}
-  .contact-row .ico{
-    width:36px;height:36px;border-radius:9px;background:var(--panel-2);border:1px solid rgba(34,211,238,.3);
-    display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;
+  .contact-compact{display:flex;flex-direction:column;gap:18px;}
+  .contact-line{display:flex;gap:22px;flex-wrap:wrap;}
+  .contact-line-item{
+    display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--text);
+    text-decoration:none;transition:color .15s ease;
   }
-  .contact-row a{text-decoration:none;color:var(--text);font-weight:600;}
-  .contact-row a:hover{color:var(--accent);}
-  .contact-row .sub{display:block;font-size:11px;color:var(--text-faint);font-weight:400;}
+  a.contact-line-item:hover{color:var(--accent);}
+  .ico-sm{font-size:15px;}
+
+  /* ---------- brief modal ---------- */
+  .brief-overlay{
+    position:fixed;inset:0;background:rgba(2,5,8,.78);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  .brief-overlay.open{display:flex;}
+  .brief-modal{
+    width:100%;max-width:560px;max-height:90vh;overflow-y:auto;padding:30px 28px;position:relative;
+  }
+  .brief-close{
+    position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;
+    background:var(--panel-2);border:1px solid rgba(34,211,238,.3);color:var(--text-dim);
+    font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .brief-close:hover{color:var(--accent);border-color:var(--accent);}
+  .brief-modal h3{font-family:'Montserrat',sans-serif;font-weight:800;font-size:20px;color:var(--gold-2);margin:0 0 6px;}
+  .brief-modal .brief-sub{font-size:12.5px;color:var(--text-dim);margin:0 0 22px;}
+  .brief-field{margin-bottom:16px;}
+  .brief-field label{display:block;font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+  .brief-field input, .brief-field select, .brief-field textarea{
+    width:100%;background:var(--panel-2);border:1px solid rgba(34,211,238,.3);border-radius:8px;
+    padding:10px 12px;font-family:'Inter',sans-serif;font-size:13.5px;color:var(--text);
+    outline:none;transition:border-color .15s ease;
+  }
+  .brief-field input:focus, .brief-field select:focus, .brief-field textarea:focus{border-color:var(--accent);}
+  .brief-field textarea{resize:vertical;min-height:70px;}
+  .brief-field select{cursor:pointer;}
+  .brief-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;}
+  .brief-note{font-size:11.5px;color:var(--text-faint);margin-top:14px;line-height:1.5;}
+  .brief-trigger-wrap{margin-top:14px;}
 
   footer{padding:30px 0 46px;}
   .footer-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:14px 20px;}
@@ -296,12 +411,24 @@
       </div>
       <nav>
         <a href="#services">Услуги</a>
+        <a href="#process">Как мы работаем</a>
         <a href="#portfolio">Портфолио</a>
         <a href="#contact">Контакты</a>
       </nav>
-      <div style="display:flex;gap:10px;">
-        <a href="https://t.me/" target="_blank" rel="noopener" class="btn btn-primary">✈️ Telegram</a>
-        <a href="https://web.max.ru/" target="_blank" rel="noopener" class="btn btn-max">⭐ MAX</a>
+      <div class="social-row">
+        <a href="https://t.me/NeiroMaxproduction" target="_blank" rel="noopener" class="social-btn btn-primary" aria-label="Telegram" title="Telegram">
+          <svg viewBox="0 0 24 24"><path d="M21.9 3.5 2.7 11c-1 .4-1 1.4.1 1.7l4.7 1.5 1.8 5.6c.2.7.9.9 1.4.4l2.6-2.4 4.9 3.6c.7.5 1.6.1 1.8-.7l3.3-15.3c.3-1-.7-1.7-1.4-1.4Zm-3.4 3.4-8.2 7.4-.3 3.3-1.5-4.5 9.5-6.6c.3-.2.6.2.5.4Z"/></svg>
+        </a>
+        <a href="https://vk.com/neiromax" target="_blank" rel="noopener" class="social-btn btn-vk" aria-label="ВКонтакте" title="ВКонтакте">VK</a>
+        <a href="https://web.max.ru/" target="_blank" rel="noopener" class="social-btn btn-max" aria-label="MAX" title="MAX">
+          <svg viewBox="0 0 24 24"><path d="M4 5.5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H9l-4 3.5v-3.5H6c-1.1 0-2-.9-2-2v-9Z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/@NeiroMaxs" target="_blank" rel="noopener" class="social-btn btn-youtube" aria-label="YouTube" title="YouTube">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M9.8 8.6v6.8l6-3.4Z"/></svg>
+        </a>
+        <a href="https://rutube.ru/channel/26" target="_blank" rel="noopener" class="social-btn btn-rutube" aria-label="RuTube" title="RuTube">
+          <svg viewBox="0 0 24 24"><text x="12" y="17.5" font-family="Arial, sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#fff">R</text></svg>
+        </a>
       </div>
     </div>
   </header>
@@ -319,6 +446,17 @@
       <span class="status-clock-label">местное время</span>
     </div>
   </div>
+
+  <div class="ticker">
+    <div class="ticker-track">
+      <span>◆ <em>СИСТЕМА АКТИВНА</em></span>
+      <span>◆ ГЕНЕРАЦИЯ КОНТЕНТА В РЕАЛЬНОМ ВРЕМЕНИ</span>
+      <span>◆ <em>ПРИЁМ ЗАЯВОК ОТКРЫТ</em></span>
+      <span>◆ ОТВЕТ В TELEGRAM И MAX В ТЕЧЕНИЕ 24 ЧАСОВ</span>
+      <span>◆ <em>ПОЛНЫЙ ЦИКЛ</em>: КОНТЕНТ · ВИДЕО · САЙТЫ · БОТЫ</span>
+      <span>◆ Г. ВОЛОГДА</span>
+    </div>
+  </div>
 </div>
 
 <div class="container">
@@ -329,25 +467,26 @@
         <h1>От идеи и разработки сценария<br>до <em>готового рекламного ролика</em></h1>
         <p>Генеративный контент, рекламные ролики на нейросетях, разработка сайтов и умные ИИ-агенты для VK и Telegram — под ключ, от идеи до запуска.</p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary">Обсудить проект</a>
+          <button type="button" class="btn btn-primary" onclick="openBrief()">📋 Заполнить бриф</button>
           <a href="#services" class="btn btn-ghost">Что мы делаем</a>
         </div>
       </div>
 
       <div class="hud-panel ring-panel">
+        <span class="led-dot"></span>
         <p class="eyebrow">Направления студии</p>
         <div class="ring-row">
           <div class="ring">
             <span class="ring-icon">🎬</span>
-            <span class="ring-label">ИИ-видео<br>реклама</span>
+              <span class="ring-label">ИИ-видео<br>реклама</span>
           </div>
           <div class="ring">
             <span class="ring-icon">🌐</span>
-            <span class="ring-label">Сайты<br>под ключ</span>
+              <span class="ring-label">Сайты<br>под ключ</span>
           </div>
           <div class="ring">
             <span class="ring-icon">🤖</span>
-            <span class="ring-label">Боты<br>VK / Telegram</span>
+              <span class="ring-label">Боты<br>VK / Telegram</span>
           </div>
         </div>
         <div class="ring-readouts">
@@ -367,6 +506,31 @@
       </div>
     </div>
   </section>
+</div>
+
+<div class="container">
+  <div class="trust-strip">
+    <div class="hud-panel trust-item">
+      <span class="led-dot"></span>
+      <span class="trust-icon">⏱</span>
+      <div><div class="trust-num">от 3 дней</div><div class="trust-label">Срок ролика</div></div>
+    </div>
+    <div class="hud-panel trust-item">
+      <span class="led-dot"></span>
+      <span class="trust-icon">📄</span>
+      <div><div class="trust-num">100%</div><div class="trust-label">Работа по договору</div></div>
+    </div>
+    <div class="hud-panel trust-item">
+      <span class="led-dot"></span>
+      <span class="trust-icon">💬</span>
+      <div><div class="trust-num">~24 часа</div><div class="trust-label">Время ответа</div></div>
+    </div>
+    <div class="hud-panel trust-item">
+      <span class="led-dot"></span>
+      <span class="trust-icon">🎯</span>
+      <div><div class="trust-num">0 ₽</div><div class="trust-label">Оценка проекта</div></div>
+    </div>
+  </div>
 </div>
 
 <div class="container">
@@ -407,9 +571,46 @@
 </div>
 
 <div class="container">
+  <section id="process">
+    <div class="section-head">
+      <span class="section-tag">Модуль 02 · Как мы работаем</span>
+      <h2>Как мы работаем</h2>
+      <p>Четыре шага от первого сообщения до готового результата — без лишних согласований.</p>
+    </div>
+    <div class="process-grid">
+
+      <div class="hud-panel process-card">
+        <div class="process-num">01</div>
+        <h3>Бриф</h3>
+        <p>Обсуждаем задачу, аудиторию и цели — в Telegram, MAX или на созвоне.</p>
+      </div>
+
+      <div class="hud-panel process-card">
+        <div class="process-num">02</div>
+        <h3>Сценарий и концепт</h3>
+        <p>Пишем сценарий или структуру, согласовываем до начала генерации.</p>
+      </div>
+
+      <div class="hud-panel process-card">
+        <div class="process-num">03</div>
+        <h3>Генерация</h3>
+        <p>Мы создаём контент по утверждённому сценарию.</p>
+      </div>
+
+      <div class="hud-panel process-card">
+        <div class="process-num">04</div>
+        <h3>Правки и сдача</h3>
+        <p>Дорабатываем по комментариям и передаём готовый результат.</p>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<div class="container">
   <section id="portfolio">
     <div class="section-head">
-      <span class="section-tag">Модуль 02 · Портфолио</span>
+      <span class="section-tag">Модуль 03 · Портфолио</span>
       <h2>Портфолио</h2>
       <p>Раздел наполняется — здесь появятся реальные кейсы и примеры работ.</p>
     </div>
@@ -447,33 +648,68 @@
 </div>
 
 <div class="container">
+  <section id="faq">
+    <div class="section-head">
+      <span class="section-tag">Модуль 04 · FAQ</span>
+      <h2>Частые вопросы</h2>
+      <p>Если ответа нет здесь — спросите в Telegram, ответим быстро.</p>
+    </div>
+    <div class="faq-list">
+
+      <details class="hud-panel faq-item">
+        <summary>Сколько стоит рекламный ролик?</summary>
+        <p>Зависит от сложности сценария и длительности ролика. После брифа присылаем смету с точной суммой и сроками.</p>
+      </details>
+
+      <details class="hud-panel faq-item">
+        <summary>Какие сроки на проект?</summary>
+        <p>От 3 дней на короткий ролик до 2–3 недель на комплексный проект — например, сайт с ИИ-ботом и рекламной кампанией.</p>
+      </details>
+
+      <details class="hud-panel faq-item">
+        <summary>Как проходит оплата?</summary>
+        <p>По договору, поэтапно: аванс перед стартом работ и окончательная оплата по итогу сдачи проекта.</p>
+      </details>
+
+      <details class="hud-panel faq-item">
+        <summary>Можно заказать только одно направление, например бота?</summary>
+        <p>Да, любое направление — контент, видео, сайт или бот — можно заказать отдельно, без остальных.</p>
+      </details>
+
+    </div>
+  </section>
+</div>
+
+<div class="container">
   <section id="contact">
     <div class="hud-panel contact-panel">
       <div>
-        <span class="section-tag">Модуль 03 · Контакты</span>
+        <span class="section-tag">Модуль 05 · Контакты</span>
         <h2>Обсудим проект?</h2>
-        <p>Расскажите, что нужно — подберём формат и посчитаем сроки. Быстрее всего ответим в Telegram.</p>
-        <div class="hero-actions">
-          <a href="https://t.me/" target="_blank" rel="noopener" class="btn btn-primary">✈️ Написать в Telegram</a>
-          <a href="https://web.max.ru/" target="_blank" rel="noopener" class="btn btn-max">⭐ Написать в MAX</a>
+        <p>Расскажите, что нужно — подберём формат и посчитаем сроки. Быстрее всего ответим в MAX.</p>
+        <div class="brief-trigger-wrap">
+          <button type="button" class="btn btn-primary" onclick="openBrief()">📋 Заполнить бриф</button>
         </div>
       </div>
-      <div class="contact-list">
-        <div class="contact-row">
-          <div class="ico">✈️</div>
-          <div><a href="https://t.me/" target="_blank" rel="noopener">@neiromax_studio</a><span class="sub">Telegram</span></div>
+      <div class="contact-compact">
+        <div class="social-row">
+          <a href="https://t.me/NeiroMaxproduction" target="_blank" rel="noopener" class="social-btn btn-primary" aria-label="Telegram" title="Telegram">
+            <svg viewBox="0 0 24 24"><path d="M21.9 3.5 2.7 11c-1 .4-1 1.4.1 1.7l4.7 1.5 1.8 5.6c.2.7.9.9 1.4.4l2.6-2.4 4.9 3.6c.7.5 1.6.1 1.8-.7l3.3-15.3c.3-1-.7-1.7-1.4-1.4Zm-3.4 3.4-8.2 7.4-.3 3.3-1.5-4.5 9.5-6.6c.3-.2.6.2.5.4Z"/></svg>
+          </a>
+          <a href="https://vk.com/neiromax" target="_blank" rel="noopener" class="social-btn btn-vk" aria-label="ВКонтакте" title="ВКонтакте">VK</a>
+          <a href="https://web.max.ru/" target="_blank" rel="noopener" class="social-btn btn-max" aria-label="MAX" title="MAX">
+            <svg viewBox="0 0 24 24"><path d="M4 5.5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2v9c0 1.1-.9 2-2 2H9l-4 3.5v-3.5H6c-1.1 0-2-.9-2-2v-9Z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@NeiroMaxs" target="_blank" rel="noopener" class="social-btn btn-youtube" aria-label="YouTube" title="YouTube">
+            <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M9.8 8.6v6.8l6-3.4Z"/></svg>
+          </a>
+          <a href="https://rutube.ru/channel/26" target="_blank" rel="noopener" class="social-btn btn-rutube" aria-label="RuTube" title="RuTube">
+            <svg viewBox="0 0 24 24"><text x="12" y="17.5" font-family="Arial, sans-serif" font-weight="900" font-size="16" text-anchor="middle" fill="#fff">R</text></svg>
+          </a>
         </div>
-        <div class="contact-row">
-          <div class="ico">⭐</div>
-          <div><a href="https://web.max.ru/" target="_blank" rel="noopener">Neiro-Max studio</a><span class="sub">MAX</span></div>
-        </div>
-        <div class="contact-row">
-          <div class="ico">📞</div>
-          <div><a href="tel:+79005011942">+7 900 501-19-42</a><span class="sub">Телефон</span></div>
-        </div>
-        <div class="contact-row">
-          <div class="ico">📍</div>
-          <div><span style="color:var(--text);font-weight:600;">г. Вологда</span><span class="sub">Город</span></div>
+        <div class="contact-line">
+          <a href="tel:+79005011942" class="contact-line-item"><span class="ico-sm">📞</span>+7 900 501-19-42</a>
+          <span class="contact-line-item"><span class="ico-sm">📍</span>г. Вологда</span>
         </div>
       </div>
     </div>
@@ -491,6 +727,49 @@
 
 </div>
 
+<div class="brief-overlay" id="briefOverlay">
+  <div class="hud-panel brief-modal">
+    <button type="button" class="brief-close" onclick="closeBrief()" aria-label="Закрыть">✕</button>
+    <h3>Бриф на проект</h3>
+    <p class="brief-sub">Заполните — и мы откроем чат с готовым сообщением, останется только нажать «Отправить».</p>
+
+    <form id="briefForm">
+      <div class="brief-field">
+        <label for="briefName">Как к вам обращаться</label>
+        <input type="text" id="briefName" placeholder="Имя">
+      </div>
+      <div class="brief-field">
+        <label for="briefService">Что нужно</label>
+        <select id="briefService">
+          <option>Генеративный контент</option>
+          <option>ИИ-видео реклама</option>
+          <option>Разработка сайта</option>
+          <option>ИИ-агент / бот для VK или Telegram</option>
+          <option>Несколько направлений сразу</option>
+        </select>
+      </div>
+      <div class="brief-field">
+        <label for="briefTask">Коротко о задаче</label>
+        <textarea id="briefTask" placeholder="Что хотите получить, для чего, есть ли примеры-референсы"></textarea>
+      </div>
+      <div class="brief-field">
+        <label for="briefDeadline">Сроки и бюджет (если есть ориентир)</label>
+        <input type="text" id="briefDeadline" placeholder="Например: нужно через 2 недели, бюджет до ...">
+      </div>
+      <div class="brief-field">
+        <label for="briefContact">Как с вами связаться</label>
+        <input type="text" id="briefContact" placeholder="Телефон, telegram-юзернейм или email">
+      </div>
+    </form>
+
+    <div class="brief-actions">
+      <button type="button" class="btn btn-primary" onclick="sendBriefTo('telegram')">✈️ Отправить в Telegram</button>
+      <button type="button" class="btn btn-max" onclick="sendBriefTo('max')">⭐ Скопировать для MAX</button>
+    </div>
+    <p class="brief-note" id="briefNote">В Telegram сообщение подставится в поле ввода автоматически — останется нажать «Отправить» уже там. Для MAX текст брифа скопируется в буфер обмена — вставьте его в чат вручную.</p>
+  </div>
+</div>
+
 <script>
   function tickHudClock(){
     const el = document.getElementById('hudClock');
@@ -501,6 +780,68 @@
   }
   tickHudClock();
   setInterval(tickHudClock, 1000);
+
+  function openBrief(){
+    document.getElementById('briefOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBrief(){
+    document.getElementById('briefOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('briefOverlay').addEventListener('click', (e) => {
+    if(e.target.id === 'briefOverlay') closeBrief();
+  });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeBrief();
+  });
+
+  function buildBriefText(){
+    const name = document.getElementById('briefName').value.trim();
+    const service = document.getElementById('briefService').value;
+    const task = document.getElementById('briefTask').value.trim();
+    const deadline = document.getElementById('briefDeadline').value.trim();
+    const contact = document.getElementById('briefContact').value.trim();
+
+    let lines = ['Бриф с сайта Neiro-Max studio', ''];
+    lines.push('Имя: ' + (name || '—'));
+    lines.push('Направление: ' + service);
+    lines.push('Задача: ' + (task || '—'));
+    if(deadline) lines.push('Сроки/бюджет: ' + deadline);
+    if(contact) lines.push('Контакт: ' + contact);
+    return lines.join('\n');
+  }
+
+  function sendBriefTo(channel){
+    const text = buildBriefText();
+    const note = document.getElementById('briefNote');
+
+    if(channel === 'telegram'){
+      const url = 'https://t.me/NeiroMaxproduction?text=' + encodeURIComponent(text);
+      window.open(url, '_blank');
+      closeBrief();
+      return;
+    }
+
+    if(channel === 'max'){
+      // open synchronously, in direct response to the click — otherwise the
+      // browser's popup blocker treats a window opened after an async
+      // clipboard write as an unrequested popup and silently blocks it
+      window.open('https://web.max.ru/', '_blank');
+
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text)
+          .then(() => {
+            note.textContent = 'Текст брифа скопирован в буфер обмена. Вставьте его в чат MAX (Ctrl+V / Cmd+V) и отправьте.';
+          })
+          .catch(() => {
+            note.textContent = 'Не удалось скопировать автоматически — выделите и скопируйте текст брифа вручную.';
+          });
+      } else {
+        note.textContent = 'Автокопирование недоступно в этом браузере — выделите и скопируйте текст брифа вручную.';
+      }
+    }
+  }
 </script>
 </body>
 </html>
